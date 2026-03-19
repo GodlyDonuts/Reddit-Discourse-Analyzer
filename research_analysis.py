@@ -33,9 +33,13 @@ def run_analysis():
         print("No analyzed data found in the database. Run hybrid_analyzer.py first.")
         return
 
+    # 2. Date Conversion (Readable format)
+    df['created_at'] = pd.to_datetime(df['created_utc'], unit='s')
+    df['date'] = df['created_at'].dt.strftime('%Y-%m-%d %H:%M:%S')
+
     print(f"Loaded {len(df)} analyzed comments.\n")
 
-    # 2. Category Distribution
+    # 3. Category Distribution
     print("--- 📊 CATEGORY DISTRIBUTION ---")
     dist = df['category'].value_counts()
     percent = df['category'].value_counts(normalize=True) * 100
